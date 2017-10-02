@@ -92,8 +92,7 @@ def predict(dataset_name, input_path, output_path):
         col_prediction = np.concatenate(col_prediction, axis=2)
         prediction.append(col_prediction)
     prob = np.concatenate(prediction, axis=1)
-    if dataset.zoom > 1:
-        prob = util.interp_map(prob, dataset.zoom, image_size[1], image_size[0])
+    prob = util.interp_map(prob, dataset.zoom, image_size[1], image_size[0])
     prediction = np.argmax(prob.transpose([1, 2, 0]), axis=2)
     color_image = dataset.palette[prediction.ravel()].reshape(image_size)
     color_image = cv2.cvtColor(color_image, cv2.COLOR_RGB2BGR)
