@@ -85,6 +85,9 @@ def predict(dataset_name, input_path, output_path, rot90=0):
 
     image = cv2.imread(input_path, 1).astype(np.float32) - predictor_state.dataset.mean_pixel
 
+    if image is None:
+        return
+
     image = rotate_image(image, rot90)
 
     image_size = image.shape
@@ -149,6 +152,8 @@ def main():
     else:
         caffe.set_mode_cpu()
         print("Using CPU")
+
+    args.input_globs = args.input_globs.replace("\*", "*")
 
     for input_glob in args.input_globs.split():
         input_paths = sorted(glob.glob(input_glob))
